@@ -20,19 +20,46 @@
         }
         .tabs {
             display: flex;
+            flex-wrap: wrap;
             border-bottom: 2px solid #ecf0f1;
             background: #f8f9fa;
         }
         .tab {
-            padding: 15px 20px;
+            padding: 15px 10px;
             cursor: pointer;
             background: transparent;
             border: none;
             font-weight: bold;
             transition: background 0.3s;
             flex: 1;
+            min-width: 80px;
             text-align: center;
+            font-size: 14px;
         }
+        
+        /* Mobile styles for tabs */
+        @media (max-width: 600px) {
+            .tab {
+                padding: 12px 5px;
+                font-size: 12px;
+                min-width: 50px;
+            }
+            body {
+                margin: 10px;
+            }
+        }
+        
+        /* For very small screens */
+        @media (max-width: 380px) {
+            .tabs {
+                flex-wrap: wrap;
+            }
+            .tab {
+                flex-basis: 33.33%;
+                border-bottom: 1px solid #ecf0f1;
+            }
+        }
+        
         .tab.active {
             background: #3498db;
             color: white;
@@ -1284,7 +1311,7 @@
                         </div>
                         <div class="sin-actions">
                             ${!sin.confessed ? 
-                                `<button class="btn btn-small" onclick="toggleConfessed(${sin.id})">✅ Oznacz jako wyspowiadany</button>` :
+                                `<button class="btn btn-small" onclick="toggleConfessed(${sin.id})">✅ Oznacz jako wyspowiadane</button>` :
                                 `<button class="btn btn-small" onclick="toggleConfessed(${sin.id})">↩️ Cofnij spowiedź</button>`
                             }
                             <button class="btn btn-small btn-danger" onclick="deleteSin(${sin.id})">🗑️ Usuń</button>
