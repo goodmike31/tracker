@@ -1310,28 +1310,114 @@
                 'appTitle': 'Rachunek Sumienia',
                 'aboutTab': 'O aplikacji',
                 'privacyTitle': 'Prywatność i bezpieczeństwo',
+                'privacyText': 'Aplikacja <strong>Rachunek Sumienia</strong> została zaprojektowana z myślą o pełnej prywatności:',
                 'howToUseTitle': 'Jak korzystać z aplikacji',
                 'securityTitle': 'Jak chronić swoje dane',
                 'purposeTitle': 'Cel aplikacji',
-                'versionsTitle': 'Wersje językowe'
-                // Add more translations as needed
+                'versionsTitle': 'Wersje językowe',
+                // Tab names
+                'checkTab': 'Sprawdź - Czy to był grzech?',
+                'addTab': 'Dodaj grzech',
+                'listTab': 'Lista grzechów',
+                'guideTab': 'Przewodnik po grzechach',
+                'statsTab': 'Statystyki',
+                'confessionTab': 'Przygotowanie do spowiedzi',
+                'backupTab': 'Backup danych',
+                // Check tab
+                'checkInstructions': 'Odpowiedz na pytania:',
+                'questionConsciousness': '1. Czy działałeś świadomie?',
+                'answerYes': 'Tak',
+                'answerNo': 'Nie (sen, choroba)',
+                'answerPartial': 'Częściowo',
+                'questionFreedom': '2. Czy mogłeś postąpić inaczej?',
+                'answerNoForced': 'Nie (przymus)',
+                'answerLimited': 'Ograniczona wolność',
+                'questionKnowledge': '3. Czy wiedziałeś że to złe?',
+                'answerUncertain': 'Miałem wątpliwości',
+                'questionConsent': '4. Czy zgodziłeś się na to?',
+                'answerInvoluntary': 'Nie, było mimowolne',
+                'answerHesitated': 'Wahałem się',
+                'checkButton': '🔍 Sprawdź',
+                // Verification results
+                'resultNoSin': '✅ TO NIE BYŁ GRZECH',
+                'resultNoSinDetails': 'Brak jednego z wymaganych elementów.',
+                'resultPossibleSin': '⚠️ MOŻLIWY GRZECH POWSZEDNI',
+                'resultPossibleSinDetails': 'Ograniczona świadomość lub zgoda.',
+                'resultSin': '❌ TO BYŁ GRZECH',
+                'resultSinDetails': 'Przejdź do zakładki "Dodaj".',
+                // Other translations
+                'commandments': {
+                    "1": "1. Nie będziesz miał bogów cudzych przede Mną",
+                    "2": "2. Nie będziesz brał imienia Pana, Boga swego, nadaremnie", 
+                    "3": "3. Pamiętaj, abyś dzień święty święcił",
+                    "4": "4. Czcij ojca swego i matkę swoją",
+                    "5": "5. Nie zabijaj",
+                    "6": "6. Nie cudzołóż",
+                    "7": "7. Nie kradnij",
+                    "8": "8. Nie mów fałszywego świadectwa przeciw bliźniego swemu",
+                    "9": "9. Nie pożądaj żony bliźniego swego",
+                    "10": "10. Ani żadnej rzeczy, która jego jest"
+                }
             },
             'en': {
-                'appTitle': 'Examen',
+                'appTitle': 'Examination of Conscience',
                 'aboutTab': 'About',
                 'privacyTitle': 'Privacy & Security',
+                'privacyText': 'The <strong>Examination of Conscience</strong> app has been designed with complete privacy in mind:',
                 'howToUseTitle': 'How to use the app',
                 'securityTitle': 'How to protect your data',
                 'purposeTitle': 'App purpose',
-                'versionsTitle': 'Language versions'
-                // Add more translations as needed
+                'versionsTitle': 'Language versions',
+                // Tab names
+                'checkTab': 'Check - Was it a sin?',
+                'addTab': 'Add sin',
+                'listTab': 'Sin list',
+                'guideTab': 'Sin guide',
+                'statsTab': 'Statistics',
+                'confessionTab': 'Confession preparation',
+                'backupTab': 'Data backup',
+                // Check tab
+                'checkInstructions': 'Answer the questions:',
+                'questionConsciousness': '1. Were you conscious of your action?',
+                'answerYes': 'Yes',
+                'answerNo': 'No (sleep, illness)',
+                'answerPartial': 'Partially',
+                'questionFreedom': '2. Could you have acted differently?',
+                'answerNoForced': 'No (forced)',
+                'answerLimited': 'Limited freedom',
+                'questionKnowledge': '3. Did you know it was wrong?',
+                'answerUncertain': 'I had doubts',
+                'questionConsent': '4. Did you consent to it?',
+                'answerInvoluntary': 'No, it was involuntary',
+                'answerHesitated': 'I hesitated',
+                'checkButton': '🔍 Check',
+                // Verification results
+                'resultNoSin': '✅ THIS WAS NOT A SIN',
+                'resultNoSinDetails': 'Missing one of the required elements.',
+                'resultPossibleSin': '⚠️ POSSIBLE VENIAL SIN',
+                'resultPossibleSinDetails': 'Limited consciousness or consent.',
+                'resultSin': '❌ THIS WAS A SIN',
+                'resultSinDetails': 'Go to the "Add" tab.',
+                // Other translations
+                'commandments': {
+                    "1": "1. You shall have no other gods before me",
+                    "2": "2. You shall not take the name of the Lord your God in vain", 
+                    "3": "3. Remember to keep holy the Sabbath day",
+                    "4": "4. Honor your father and mother",
+                    "5": "5. You shall not kill",
+                    "6": "6. You shall not commit adultery",
+                    "7": "7. You shall not steal",
+                    "8": "8. You shall not bear false witness against your neighbor",
+                    "9": "9. You shall not covet your neighbor's wife",
+                    "10": "10. You shall not covet your neighbor's goods"
+                }
             }
         };
         
         function setLanguage(lang) {
             currentLanguage = lang;
             
-            // Update title
+            // Update title and metadata
             document.querySelector('.app-title').textContent = translations[lang].appTitle;
             document.title = translations[lang].appTitle;
             
@@ -1341,7 +1427,33 @@
             });
             document.querySelector(`.language-btn[onclick*="${lang}"]`).classList.add('active');
             
-            // TODO: Add more translations for the app content
+            // Update tab headers
+            document.querySelector('#about h3').innerHTML = `ℹ️ ${translations[lang].aboutTab}`;
+            document.querySelector('#weryfikacja h3').innerHTML = `🔍 ${translations[lang].checkTab}`;
+            document.querySelector('#dodaj h3').innerHTML = `➕ ${translations[lang].addTab}`;
+            document.querySelector('#lista h3').innerHTML = `📋 ${translations[lang].listTab}`;
+            document.querySelector('#przewodnik h3').innerHTML = `📖 ${translations[lang].guideTab}`;
+            document.querySelector('#statystyki h3').innerHTML = `📊 ${translations[lang].statsTab}`;
+            document.querySelector('#spowiedz h3').innerHTML = `🙏 ${translations[lang].confessionTab}`;
+            document.querySelector('#backup h3').innerHTML = `💾 ${translations[lang].backupTab}`;
+            
+            // Update About section
+            document.querySelector('#about .info-box h4').innerHTML = `🔒 ${translations[lang].privacyTitle}`;
+            document.querySelector('#about .info-box p').innerHTML = translations[lang].privacyText;
+            document.querySelector('#about-usage').previousElementSibling.querySelector('span:first-child').textContent = translations[lang].howToUseTitle;
+            document.querySelector('#about-security').previousElementSibling.querySelector('span:first-child').textContent = translations[lang].securityTitle;
+            document.querySelector('#about-purpose').previousElementSibling.querySelector('span:first-child').textContent = translations[lang].purposeTitle;
+            document.querySelector('#about-versions').previousElementSibling.querySelector('span:first-child').textContent = translations[lang].versionsTitle;
+            
+            // Update Verification section
+            document.querySelector('#weryfikacja > p').textContent = translations[lang].checkInstructions;
+            document.querySelector('.question:nth-of-type(1) .question-title').textContent = translations[lang].questionConsciousness;
+            document.querySelector('.question:nth-of-type(2) .question-title').textContent = translations[lang].questionFreedom;
+            document.querySelector('.question:nth-of-type(3) .question-title').textContent = translations[lang].questionKnowledge;
+            document.querySelector('.question:nth-of-type(4) .question-title').textContent = translations[lang].questionConsent;
+            document.querySelector('#verification-result').innerHTML = ''; // Clear result on language change
+            
+            // Update other sections as needed...
             
             // Save language preference
             localStorage.setItem('preferredLanguage', lang);
@@ -1369,7 +1481,7 @@
             "5": "5. Nie zabijaj",
             "6": "6. Nie cudzołóż",
             "7": "7. Nie kradnij",
-            "8": "8. Nie mów fałszywego świadectwa przeciw bliźniemu swemu",
+            "8": "8. Nie mów fałszywego świadectwa przeciw bliźniego swemu",
             "9": "9. Nie pożądaj żony bliźniego swego",
             "10": "10. Ani żadnej rzeczy, która jego jest"
         };
