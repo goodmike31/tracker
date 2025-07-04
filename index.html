@@ -464,20 +464,113 @@
     
         <!-- TABS NAVIGATION -->
         <div class="tabs">
-            <button class="tab active" onclick="showTab('weryfikacja')">🔍</button>
+            <button class="tab active" onclick="showTab('about')">ℹ️</button>
+            <button class="tab" onclick="showTab('weryfikacja')">🔍</button>
             <button class="tab" onclick="showTab('dodaj')">➕</button>
             <button class="tab" onclick="showTab('lista')">📋</button>
             <button class="tab" onclick="showTab('przewodnik')">📖</button>
             <button class="tab" onclick="showTab('statystyki')">📊</button>
             <button class="tab" onclick="showTab('spowiedz')">🙏</button>
             <button class="tab" onclick="showTab('backup')">💾</button>
-            <button class="tab" onclick="showTab('about')">ℹ️</button>
         </div>
 
         <!-- CONTENT AREA -->
         <div class="content">
+            <!-- ABOUT -->
+            <div id="about" class="tab-section active">
+                <h3>ℹ️ O aplikacji</h3>
+                
+                <div class="info-box">
+                    <h4>🔒 Prywatność i bezpieczeństwo</h4>
+                    <p>Aplikacja <strong>Rachunek Sumienia</strong> została zaprojektowana z myślą o pełnej prywatności:</p>
+                    <ul>
+                        <li>Wszystkie dane są przechowywane <strong>wyłącznie lokalnie</strong> w pamięci Twojej przeglądarki</li>
+                        <li>Żadne informacje nie są wysyłane na serwery ani udostępniane osobom trzecim</li>
+                        <li>Nie używamy cookies ani innych technologii śledzących</li>
+                        <li>Aplikacja działa w pełni offline po pierwszym załadowaniu</li>
+                    </ul>
+                </div>
+                
+                <div class="guide-section">
+                    <div class="guide-header" onclick="toggleGuideSection('about-usage')">
+                        <span>📝 Jak korzystać z aplikacji</span>
+                        <span>▼</span>
+                    </div>
+                    <div id="about-usage" class="guide-content">
+                        <p>Aplikacja składa się z kilku sekcji, do których można uzyskać dostęp poprzez menu nawigacyjne:</p>
+                        <ol>
+                            <li><strong>🔍 Sprawdź</strong> - Narzędzie do weryfikacji czy dane działanie było grzechem</li>
+                            <li><strong>➕ Dodaj</strong> - Formularz do dodawania nowych grzechów do rejestru</li>
+                            <li><strong>📋 Lista</strong> - Przeglądanie i zarządzanie zapisanymi grzechami</li>
+                            <li><strong>📖 Przewodnik</strong> - Przewodnik po rodzajach grzechów z przykładami</li>
+                            <li><strong>📊 Statystyki</strong> - Podsumowanie statystyczne zapisanych grzechów</li>
+                            <li><strong>🙏 Spowiedź</strong> - Generowanie listy grzechów do spowiedzi</li>
+                            <li><strong>💾 Backup</strong> - Eksport i import danych</li>
+                            <li><strong>ℹ️ O aplikacji</strong> - Informacje o aplikacji i instrukcja</li>
+                        </ol>
+                        <p>Zalecamy rozpoczęcie od zapoznania się z sekcją <strong>Przewodnik</strong> aby lepiej zrozumieć klasyfikację grzechów.</p>
+                    </div>
+                </div>
+                
+                <div class="guide-section">
+                    <div class="guide-header" onclick="toggleGuideSection('about-security')">
+                        <span>🔐 Jak chronić swoje dane</span>
+                        <span>▼</span>
+                    </div>
+                    <div id="about-security" class="guide-content">
+                        <p>Ponieważ dane są przechowywane lokalnie w przeglądarce, należy pamiętać o kilku ważnych kwestiach:</p>
+                        <ul>
+                            <li><strong>Czyszczenie przeglądarki</strong> - Czyszczenie danych przeglądarki może spowodować utratę wszystkich zapisanych informacji</li>
+                            <li><strong>Używanie trybu incognito</strong> - W trybie prywatnym/incognito dane nie będą zapisane po zamknięciu przeglądarki</li>
+                            <li><strong>Współdzielone urządzenia</strong> - Jeśli korzystasz z urządzenia współdzielonego z innymi, zalecamy tworzenie regularnych kopii zapasowych i czyszczenie danych po zakończeniu</li>
+                        </ul>
+                        
+                        <h4>Zalecenia bezpieczeństwa:</h4>
+                        <ol>
+                            <li>Regularnie twórz kopie zapasowe korzystając z funkcji <strong>Backup</strong></li>
+                            <li>Przechowuj pliki kopii zapasowych w bezpiecznym miejscu</li>
+                            <li>Rozważ zabezpieczenie plików kopii zapasowych hasłem (np. w archiwum ZIP z hasłem)</li>
+                            <li>Na urządzeniach mobilnych zabezpiecz dostęp do przeglądarki</li>
+                        </ol>
+                    </div>
+                </div>
+                
+                <div class="guide-section">
+                    <div class="guide-header" onclick="toggleGuideSection('about-purpose')">
+                        <span>🙏 Cel aplikacji</span>
+                        <span>▼</span>
+                    </div>
+                    <div id="about-purpose" class="guide-content">
+                        <p>Aplikacja <strong>Rachunek Sumienia</strong> została stworzona jako narzędzie do osobistego rozwoju duchowego oraz przygotowania do sakramentu spowiedzi. Służy do:</p>
+                        <ul>
+                            <li>Pogłębionej refleksji nad własnym postępowaniem</li>
+                            <li>Zrozumienia natury grzechów według nauki Kościoła</li>
+                            <li>Systematycznego przygotowania do spowiedzi</li>
+                            <li>Monitorowania własnego rozwoju duchowego</li>
+                        </ul>
+                        
+                        <p>Pamiętaj, że aplikacja jest narzędziem pomocniczym - nie zastępuje osobistej modlitwy, refleksji i rozmowy z duszpasterzem.</p>
+                    </div>
+                </div>
+                
+                <div class="guide-section">
+                    <div class="guide-header" onclick="toggleGuideSection('about-versions')">
+                        <span>🌐 Wersje językowe</span>
+                        <span>▼</span>
+                    </div>
+                    <div id="about-versions" class="guide-content">
+                        <p>Aplikacja dostępna jest w następujących językach:</p>
+                        <ul>
+                            <li>🇵🇱 Polski (wersja podstawowa)</li>
+                            <li>🇬🇧 Angielski (w trakcie tłumaczenia)</li>
+                        </ul>
+                        <p>Języki można przełączać za pomocą przycisków w górnym prawym rogu ekranu.</p>
+                    </div>
+                </div>
+            </div>
+
             <!-- WERYFIKACJA -->
-            <div id="weryfikacja" class="tab-section active">
+            <div id="weryfikacja" class="tab-section">
                 <h3>🔍 Sprawdź - Czy to był grzech?</h3>
                 <p>Odpowiedz na pytania:</p>
                 
@@ -1206,99 +1299,6 @@
                     <strong>❌ Błąd!</strong> <span id="error-message"></span>
                 </div>
             </div>
-            
-            <!-- ABOUT -->
-            <div id="about" class="tab-section">
-                <h3>ℹ️ O aplikacji</h3>
-                
-                <div class="info-box">
-                    <h4>🔒 Prywatność i bezpieczeństwo</h4>
-                    <p>Aplikacja <strong>Rachunek Sumienia</strong> została zaprojektowana z myślą o pełnej prywatności:</p>
-                    <ul>
-                        <li>Wszystkie dane są przechowywane <strong>wyłącznie lokalnie</strong> w pamięci Twojej przeglądarki</li>
-                        <li>Żadne informacje nie są wysyłane na serwery ani udostępniane osobom trzecim</li>
-                        <li>Nie używamy cookies ani innych technologii śledzących</li>
-                        <li>Aplikacja działa w pełni offline po pierwszym załadowaniu</li>
-                    </ul>
-                </div>
-                
-                <div class="guide-section">
-                    <div class="guide-header" onclick="toggleGuideSection('about-usage')">
-                        <span>📝 Jak korzystać z aplikacji</span>
-                        <span>▼</span>
-                    </div>
-                    <div id="about-usage" class="guide-content">
-                        <p>Aplikacja składa się z kilku sekcji, do których można uzyskać dostęp poprzez menu nawigacyjne:</p>
-                        <ol>
-                            <li><strong>🔍 Sprawdź</strong> - Narzędzie do weryfikacji czy dane działanie było grzechem</li>
-                            <li><strong>➕ Dodaj</strong> - Formularz do dodawania nowych grzechów do rejestru</li>
-                            <li><strong>📋 Lista</strong> - Przeglądanie i zarządzanie zapisanymi grzechami</li>
-                            <li><strong>📖 Przewodnik</strong> - Przewodnik po rodzajach grzechów z przykładami</li>
-                            <li><strong>📊 Statystyki</strong> - Podsumowanie statystyczne zapisanych grzechów</li>
-                            <li><strong>🙏 Spowiedź</strong> - Generowanie listy grzechów do spowiedzi</li>
-                            <li><strong>💾 Backup</strong> - Eksport i import danych</li>
-                            <li><strong>ℹ️ O aplikacji</strong> - Informacje o aplikacji i instrukcja</li>
-                        </ol>
-                        <p>Zalecamy rozpoczęcie od zapoznania się z sekcją <strong>Przewodnik</strong> aby lepiej zrozumieć klasyfikację grzechów.</p>
-                    </div>
-                </div>
-                
-                <div class="guide-section">
-                    <div class="guide-header" onclick="toggleGuideSection('about-security')">
-                        <span>🔐 Jak chronić swoje dane</span>
-                        <span>▼</span>
-                    </div>
-                    <div id="about-security" class="guide-content">
-                        <p>Ponieważ dane są przechowywane lokalnie w przeglądarce, należy pamiętać o kilku ważnych kwestiach:</p>
-                        <ul>
-                            <li><strong>Czyszczenie przeglądarki</strong> - Czyszczenie danych przeglądarki może spowodować utratę wszystkich zapisanych informacji</li>
-                            <li><strong>Używanie trybu incognito</strong> - W trybie prywatnym/incognito dane nie będą zapisane po zamknięciu przeglądarki</li>
-                            <li><strong>Współdzielone urządzenia</strong> - Jeśli korzystasz z urządzenia współdzielonego z innymi, zalecamy tworzenie regularnych kopii zapasowych i czyszczenie danych po zakończeniu</li>
-                        </ul>
-                        
-                        <h4>Zalecenia bezpieczeństwa:</h4>
-                        <ol>
-                            <li>Regularnie twórz kopie zapasowe korzystając z funkcji <strong>Backup</strong></li>
-                            <li>Przechowuj pliki kopii zapasowych w bezpiecznym miejscu</li>
-                            <li>Rozważ zabezpieczenie plików kopii zapasowych hasłem (np. w archiwum ZIP z hasłem)</li>
-                            <li>Na urządzeniach mobilnych zabezpiecz dostęp do przeglądarki</li>
-                        </ol>
-                    </div>
-                </div>
-                
-                <div class="guide-section">
-                    <div class="guide-header" onclick="toggleGuideSection('about-purpose')">
-                        <span>🙏 Cel aplikacji</span>
-                        <span>▼</span>
-                    </div>
-                    <div id="about-purpose" class="guide-content">
-                        <p>Aplikacja <strong>Rachunek Sumienia</strong> została stworzona jako narzędzie do osobistego rozwoju duchowego oraz przygotowania do sakramentu spowiedzi. Służy do:</p>
-                        <ul>
-                            <li>Pogłębionej refleksji nad własnym postępowaniem</li>
-                            <li>Zrozumienia natury grzechów według nauki Kościoła</li>
-                            <li>Systematycznego przygotowania do spowiedzi</li>
-                            <li>Monitorowania własnego rozwoju duchowego</li>
-                        </ul>
-                        
-                        <p>Pamiętaj, że aplikacja jest narzędziem pomocniczym - nie zastępuje osobistej modlitwy, refleksji i rozmowy z duszpasterzem.</p>
-                    </div>
-                </div>
-                
-                <div class="guide-section">
-                    <div class="guide-header" onclick="toggleGuideSection('about-versions')">
-                        <span>🌐 Wersje językowe</span>
-                        <span>▼</span>
-                    </div>
-                    <div id="about-versions" class="guide-content">
-                        <p>Aplikacja dostępna jest w następujących językach:</p>
-                        <ul>
-                            <li>🇵🇱 Polski (wersja podstawowa)</li>
-                            <li>🇬🇧 Angielski (w trakcie tłumaczenia)</li>
-                        </ul>
-                        <p>Języki można przełączać za pomocą przycisków w górnym prawym rogu ekranu.</p>
-                    </div>
-                </div>
-            </div>
         </div>
     </div>
 
@@ -1794,7 +1794,7 @@
             if (unconfessedSins.length === 0) {
                 alert('Brak grzechów do wyspowiadania!');
                 return;
-            }
+                       }
             
             let text = 'LISTA DO SPOWIEDZI\n';
             text += '==================\n\n';
