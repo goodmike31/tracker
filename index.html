@@ -32,17 +32,17 @@
             font-weight: bold;
             transition: background 0.3s;
             flex: 1;
-            min-width: 80px;
+            min-width: 50px;
             text-align: center;
-            font-size: 14px;
+            font-size: 18px;
         }
         
         /* Mobile styles for tabs */
         @media (max-width: 600px) {
             .tab {
                 padding: 12px 5px;
-                font-size: 12px;
-                min-width: 50px;
+                font-size: 16px;
+                min-width: 40px;
             }
             body {
                 margin: 10px;
@@ -55,7 +55,7 @@
                 flex-wrap: wrap;
             }
             .tab {
-                flex-basis: 33.33%;
+                flex-basis: 25%;
                 border-bottom: 1px solid #ecf0f1;
             }
         }
@@ -395,20 +395,20 @@
     <div class="container">
         <!-- TABS NAVIGATION -->
         <div class="tabs">
-            <button class="tab active" onclick="showTab('weryfikacja')">🔍 Sprawdź</button>
-            <button class="tab" onclick="showTab('dodaj')">➕ Dodaj</button>
-            <button class="tab" onclick="showTab('lista')">📋 Lista</button>
-            <button class="tab" onclick="showTab('przewodnik')">📖 Przewodnik</button>
-            <button class="tab" onclick="showTab('statystyki')">📊 Statystyki</button>
-            <button class="tab" onclick="showTab('spowiedz')">🙏 Spowiedź</button>
-            <button class="tab" onclick="showTab('backup')">💾 Backup</button>
+            <button class="tab active" onclick="showTab('weryfikacja')">🔍</button>
+            <button class="tab" onclick="showTab('dodaj')">➕</button>
+            <button class="tab" onclick="showTab('lista')">📋</button>
+            <button class="tab" onclick="showTab('przewodnik')">📖</button>
+            <button class="tab" onclick="showTab('statystyki')">📊</button>
+            <button class="tab" onclick="showTab('spowiedz')">🙏</button>
+            <button class="tab" onclick="showTab('backup')">💾</button>
         </div>
 
         <!-- CONTENT AREA -->
         <div class="content">
             <!-- WERYFIKACJA -->
             <div id="weryfikacja" class="tab-section active">
-                <h3>🔍 Czy to był grzech?</h3>
+                <h3>🔍 Sprawdź - Czy to był grzech?</h3>
                 <p>Odpowiedz na pytania:</p>
                 
                 <div class="question">
@@ -478,7 +478,7 @@
 
             <!-- DODAJ -->
             <div id="dodaj" class="tab-section">
-                <h3>📝 Dodaj grzech</h3>
+                <h3>➕ Dodaj grzech</h3>
                 <form id="sin-form">
                     <div class="form-group">
                         <label for="sin-description">Opis:</label>
