@@ -1,0 +1,1624 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Osobisty Dziennik</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+            background-color: #f5f5f5;
+        }
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 10px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            overflow: hidden;
+        }
+        .tabs {
+            display: flex;
+            border-bottom: 2px solid #ecf0f1;
+            background: #f8f9fa;
+        }
+        .tab {
+            padding: 15px 20px;
+            cursor: pointer;
+            background: transparent;
+            border: none;
+            font-weight: bold;
+            transition: background 0.3s;
+            flex: 1;
+            text-align: center;
+        }
+        .tab.active {
+            background: #3498db;
+            color: white;
+        }
+        .tab:hover {
+            background: #34495e;
+            color: white;
+        }
+        .content {
+            padding: 30px;
+            min-height: 400px;
+        }
+        .tab-section {
+            display: none;
+        }
+        .tab-section.active {
+            display: block;
+        }
+        .form-group {
+            margin-bottom: 15px;
+        }
+        label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: bold;
+            color: #2c3e50;
+        }
+        input[type="text"], input[type="date"], textarea, select {
+            width: 100%;
+            padding: 8px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            font-size: 14px;
+        }
+        textarea {
+            height: 60px;
+            resize: vertical;
+        }
+        .btn {
+            background: #3498db;
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 14px;
+            margin-right: 10px;
+        }
+        .btn:hover {
+            background: #2980b9;
+        }
+        .btn-danger {
+            background: #e74c3c;
+        }
+        .btn-danger:hover {
+            background: #c0392b;
+        }
+        .info-box {
+            background: #e3f2fd;
+            padding: 15px;
+            border-radius: 5px;
+            border-left: 4px solid #2196f3;
+            margin-bottom: 20px;
+        }
+        .warning-box {
+            background: #fff3e0;
+            padding: 15px;
+            border-radius: 5px;
+            border-left: 4px solid #ff9800;
+            margin-bottom: 20px;
+        }
+        .stat-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 15px;
+        }
+        .stat-card {
+            background: #f8f9fa;
+            padding: 15px;
+            border-radius: 5px;
+            text-align: center;
+            border: 1px solid #ddd;
+        }
+        .stat-number {
+            font-size: 24px;
+            font-weight: bold;
+            color: #3498db;
+        }
+        .stat-label {
+            font-size: 12px;
+            color: #7f8c8d;
+            margin-top: 5px;
+        }
+        .backup-actions {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px;
+            margin-top: 20px;
+        }
+        .backup-card {
+            background: #f8f9fa;
+            padding: 20px;
+            border-radius: 8px;
+            border: 1px solid #ddd;
+            text-align: center;
+        }
+        .backup-card h4 {
+            margin: 0 0 10px 0;
+            color: #2c3e50;
+        }
+        .file-input {
+            display: none;
+        }
+        .file-input-label {
+            display: inline-block;
+            background: #3498db;
+            color: white;
+            padding: 10px 20px;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 14px;
+            margin-right: 10px;
+        }
+        .file-input-label:hover {
+            background: #2980b9;
+        }
+        .success-box {
+            background: #e8f5e8;
+            padding: 15px;
+            border-radius: 5px;
+            border-left: 4px solid #4caf50;
+            margin: 15px 0;
+            display: none;
+        }
+        .error-box {
+            background: #ffebee;
+            padding: 15px;
+            border-radius: 5px;
+            border-left: 4px solid #f44336;
+            margin: 15px 0;
+            display: none;
+        }
+        .question {
+            margin-bottom: 20px;
+            padding: 15px;
+            background: #f8f9fa;
+            border-radius: 5px;
+            border: 1px solid #ddd;
+        }
+        .question-title {
+            font-weight: bold;
+            margin-bottom: 10px;
+            color: #2c3e50;
+        }
+        .question-options {
+            display: flex;
+            gap: 15px;
+            flex-wrap: wrap;
+        }
+        .question-option {
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+        .result {
+            padding: 20px;
+            border-radius: 8px;
+            margin-top: 20px;
+            text-align: center;
+            font-weight: bold;
+        }
+        .result-sin {
+            background: #ffebee;
+            color: #c62828;
+            border: 2px solid #f44336;
+        }
+        .result-no-sin {
+            background: #e8f5e8;
+            color: #2e7d32;
+            border: 2px solid #4caf50;
+        }
+        .result-uncertain {
+            background: #fff3e0;
+            color: #ef6c00;
+            border: 2px solid #ff9800;
+        }
+        .guide-section {
+            background: #f8f9fa;
+            margin-bottom: 15px;
+            border-radius: 8px;
+            overflow: hidden;
+            border: 1px solid #ddd;
+        }
+        .guide-header {
+            background: #3498db;
+            color: white;
+            padding: 12px 15px;
+            cursor: pointer;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-weight: bold;
+        }
+        .guide-header:hover {
+            background: #2980b9;
+        }
+        .guide-content {
+            padding: 15px;
+            display: none;
+        }
+        .guide-content.active {
+            display: block;
+        }
+        .sin-type {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 15px;
+        }
+        .sin-category {
+            padding: 12px;
+            border-radius: 5px;
+            border-left: 4px solid;
+        }
+        .sin-heavy {
+            background: #ffebee;
+            border-left-color: #f44336;
+        }
+        .sin-light {
+            background: #fff3e0;
+            border-left-color: #ff9800;
+        }
+        .sin-category h5 {
+            margin: 0 0 8px 0;
+            color: #2c3e50;
+            font-size: 14px;
+        }
+        .sin-category ul {
+            margin: 0;
+            padding-left: 18px;
+            font-size: 13px;
+        }
+        .sin-category li {
+            margin-bottom: 4px;
+        }
+        
+        /* Nowe style dla listy grzechów */
+        .sin-item {
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            padding: 15px;
+            margin-bottom: 15px;
+            background: #f8f9fa;
+        }
+        .sin-item.serious {
+            border-left: 4px solid #f44336;
+            background: #ffebee;
+        }
+        .sin-item.venial {
+            border-left: 4px solid #ff9800;
+            background: #fff3e0;
+        }
+        .sin-item.confessed {
+            opacity: 0.6;
+            background: #e8f5e8;
+            border-left-color: #4caf50;
+        }
+        .sin-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 10px;
+        }
+        .sin-severity {
+            padding: 4px 8px;
+            border-radius: 4px;
+            font-size: 12px;
+            font-weight: bold;
+        }
+        .severity-serious {
+            background: #f44336;
+            color: white;
+        }
+        .severity-venial {
+            background: #ff9800;
+            color: white;
+        }
+        .sin-description {
+            margin-bottom: 10px;
+            font-weight: bold;
+        }
+        .sin-details {
+            font-size: 13px;
+            color: #666;
+        }
+        .sin-actions {
+            margin-top: 10px;
+            display: flex;
+            gap: 10px;
+        }
+        .btn-small {
+            padding: 5px 10px;
+            font-size: 12px;
+        }
+        .confession-list {
+            background: #f8f9fa;
+            padding: 20px;
+            border-radius: 8px;
+            border: 1px solid #ddd;
+            margin-top: 20px;
+        }
+        .confession-item {
+            margin-bottom: 15px;
+            padding: 10px;
+            background: white;
+            border-radius: 5px;
+            border-left: 4px solid #3498db;
+        }
+        .commandment-names {
+            "1": "1. Przykazanie",
+            "2": "2. Przykazanie", 
+            "3": "3. Przykazanie",
+            "4": "4. Przykazanie",
+            "5": "5. Przykazanie",
+            "6": "6. Przykazanie",
+            "7": "7. Przykazanie",
+            "8": "8. Przykazanie",
+            "9": "9. Przykazanie",
+            "10": "10. Przykazanie"
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- TABS NAVIGATION -->
+        <div class="tabs">
+            <button class="tab active" onclick="showTab('weryfikacja')">🔍 Sprawdź</button>
+            <button class="tab" onclick="showTab('dodaj')">➕ Dodaj</button>
+            <button class="tab" onclick="showTab('lista')">📋 Lista</button>
+            <button class="tab" onclick="showTab('przewodnik')">📖 Przewodnik</button>
+            <button class="tab" onclick="showTab('statystyki')">📊 Statystyki</button>
+            <button class="tab" onclick="showTab('spowiedz')">🙏 Spowiedź</button>
+            <button class="tab" onclick="showTab('backup')">💾 Backup</button>
+        </div>
+
+        <!-- CONTENT AREA -->
+        <div class="content">
+            <!-- WERYFIKACJA -->
+            <div id="weryfikacja" class="tab-section active">
+                <h3>🔍 Czy to był grzech?</h3>
+                <p>Odpowiedz na pytania:</p>
+                
+                <div class="question">
+                    <div class="question-title">1. Czy działałeś świadomie?</div>
+                    <div class="question-options">
+                        <label class="question-option">
+                            <input type="radio" name="consciousness" value="yes"> Tak
+                        </label>
+                        <label class="question-option">
+                            <input type="radio" name="consciousness" value="no"> Nie (sen, choroba)
+                        </label>
+                        <label class="question-option">
+                            <input type="radio" name="consciousness" value="partial"> Częściowo
+                        </label>
+                    </div>
+                </div>
+                
+                <div class="question">
+                    <div class="question-title">2. Czy mogłeś postąpić inaczej?</div>
+                    <div class="question-options">
+                        <label class="question-option">
+                            <input type="radio" name="freedom" value="yes"> Tak
+                        </label>
+                        <label class="question-option">
+                            <input type="radio" name="freedom" value="no"> Nie (przymus)
+                        </label>
+                        <label class="question-option">
+                            <input type="radio" name="freedom" value="limited"> Ograniczona wolność
+                        </label>
+                    </div>
+                </div>
+                
+                <div class="question">
+                    <div class="question-title">3. Czy wiedziałeś że to złe?</div>
+                    <div class="question-options">
+                        <label class="question-option">
+                            <input type="radio" name="knowledge" value="yes"> Tak
+                        </label>
+                        <label class="question-option">
+                            <input type="radio" name="knowledge" value="no"> Nie
+                        </label>
+                        <label class="question-option">
+                            <input type="radio" name="knowledge" value="uncertain"> Miałem wątpliwości
+                        </label>
+                    </div>
+                </div>
+                
+                <div class="question">
+                    <div class="question-title">4. Czy zgodziłeś się na to?</div>
+                    <div class="question-options">
+                        <label class="question-option">
+                            <input type="radio" name="consent" value="yes"> Tak
+                        </label>
+                        <label class="question-option">
+                            <input type="radio" name="consent" value="no"> Nie, było mimowolne
+                        </label>
+                        <label class="question-option">
+                            <input type="radio" name="consent" value="partial"> Wahałem się
+                        </label>
+                    </div>
+                </div>
+                
+                <button class="btn" onclick="verifyAction()">🔍 Sprawdź</button>
+                
+                <div id="verification-result"></div>
+            </div>
+
+            <!-- DODAJ -->
+            <div id="dodaj" class="tab-section">
+                <h3>📝 Dodaj grzech</h3>
+                <form id="sin-form">
+                    <div class="form-group">
+                        <label for="sin-description">Opis:</label>
+                        <textarea id="sin-description" placeholder="Co zrobiłeś, powiedziałeś lub pomyślałeś..." required></textarea>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="sin-date">Data:</label>
+                        <input type="date" id="sin-date" required>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="sin-severity">Ciężkość:</label>
+                        <select id="sin-severity" required>
+                            <option value="">-- Wybierz --</option>
+                            <option value="ciężki">🔴 Grzech ciężki (obowiązek spowiedzi)</option>
+                            <option value="powszedni">🟡 Grzech powszedni (zalecana spowiedź)</option>
+                        </select>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="sin-commandment">Przykazanie:</label>
+                        <select id="sin-commandment" required>
+                            <option value="">-- Wybierz --</option>
+                            <option value="1">1. Nie będziesz miał bogów cudzych przede Mną</option>
+                            <option value="2">2. Nie będziesz brał imienia Pana, Boga swego, nadaremnie</option>
+                            <option value="3">3. Pamiętaj, abyś dzień święty święcił</option>
+                            <option value="4">4. Czcij ojca swego i matkę swoją</option>
+                            <option value="5">5. Nie zabijaj</option>
+                            <option value="6">6. Nie cudzołóż</option>
+                            <option value="7">7. Nie kradnij</option>
+                            <option value="8">8. Nie mów fałszywego świadectwa przeciw bliźniemu swemu</option>
+                            <option value="9">9. Nie pożądaj żony bliźniego swego</option>
+                            <option value="10">10. Ani żadnej rzeczy, która jego jest</option>
+                        </select>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="sin-cardinal">Grzech główny:</label>
+                        <select id="sin-cardinal">
+                            <option value="">-- Opcjonalnie --</option>
+                            <option value="pycha">Pycha</option>
+                            <option value="chciwość">Chciwość</option>
+                            <option value="nieczystość">Nieczystość</option>
+                            <option value="zazdrość">Zazdrość</option>
+                            <option value="obżarstwo">Obżarstwo</option>
+                            <option value="gniew">Gniew</option>
+                            <option value="lenistwo">Lenistwo</option>
+                        </select>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="sin-context">Okoliczności:</label>
+                        <textarea id="sin-context" placeholder="Dlaczego, gdzie, skutki..."></textarea>
+                    </div>
+                    
+                    <button type="submit" class="btn">💾 Zapisz</button>
+                </form>
+            </div>
+
+            <!-- LISTA -->
+            <div id="lista" class="tab-section">
+                <h3>📋 Lista grzechów</h3>
+                <div class="form-group">
+                    <label for="filter-period">Filtruj okres:</label>
+                    <select id="filter-period" onchange="updateSinsList()">
+                        <option value="all">Wszystkie</option>
+                        <option value="7">Ostatnie 7 dni</option>
+                        <option value="30">Ostatnie 30 dni</option>
+                        <option value="90">Ostatnie 3 miesiące</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="filter-confessed">Filtruj status:</label>
+                    <select id="filter-confessed" onchange="updateSinsList()">
+                        <option value="all">Wszystkie</option>
+                        <option value="unconfessed">Niewyspowiadane</option>
+                        <option value="confessed">Wyspowiadane</option>
+                    </select>
+                </div>
+                <div id="sins-list"></div>
+            </div>
+
+            <!-- PRZEWODNIK -->
+            <div id="przewodnik" class="tab-section">
+                <h3>📖 Przewodnik po grzechach</h3>
+                <p>Kliknij na sekcje aby zobaczyć przykłady grzechów ciężkich i powszednich:</p>
+                
+                <!-- 10 PRZYKAZAŃ -->
+                <div class="guide-section">
+                    <div class="guide-header" onclick="toggleGuideSection('przykazanie1')">
+                        <span>1️⃣ Nie będziesz miał bogów cudzych przede Mną</span>
+                        <span>▼</span>
+                    </div>
+                    <div id="przykazanie1" class="guide-content">
+                        <div class="sin-type">
+                            <div class="sin-category sin-heavy">
+                                <h5>🔴 Grzechy ciężkie</h5>
+                                <ul>
+                                    <li>Bałwochwalstwo</li>
+                                    <li>Magia, wróżbiarstwo</li>
+                                    <li>Porzucenie wiary</li>
+                                    <li>Bluźnierstwo przeciw Bogu</li>
+                                    <li>Stawianie czegoś ponad Boga</li>
+                                </ul>
+                            </div>
+                            <div class="sin-category sin-light">
+                                <h5>🟡 Grzechy powszednie</h5>
+                                <ul>
+                                    <li>Przesądy</li>
+                                    <li>Lekceważenie świętości</li>
+                                    <li>Przywiązanie do dóbr</li>
+                                    <li>Stawianie hobby ponad modlitwę</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="guide-section">
+                    <div class="guide-header" onclick="toggleGuideSection('przykazanie2')">
+                        <span>2️⃣ Nie będziesz brał imienia Pana, Boga swego, nadaremnie</span>
+                        <span>▼</span>
+                    </div>
+                    <div id="przykazanie2" class="guide-content">
+                        <div class="sin-type">
+                            <div class="sin-category sin-heavy">
+                                <h5>🔴 Grzechy ciężkie</h5>
+                                <ul>
+                                    <li>Bluźnierstwo</li>
+                                    <li>Krzywoprzysięstwo</li>
+                                    <li>Łamanie ślubów zakonnych</li>
+                                    <li>Przeklinanie z nienawiścią</li>
+                                </ul>
+                            </div>
+                            <div class="sin-category sin-light">
+                                <h5>🟡 Grzechy powszednie</h5>
+                                <ul>
+                                    <li>Przeklinanie z przyzwyczajenia</li>
+                                    <li>Lekkomyślne używanie imienia Boga</li>
+                                    <li>Nieprzemyślane obietnice Bogu</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="guide-section">
+                    <div class="guide-header" onclick="toggleGuideSection('przykazanie3')">
+                        <span>3️⃣ Pamiętaj, abyś dzień święty święcił</span>
+                        <span>▼</span>
+                    </div>
+                    <div id="przykazanie3" class="guide-content">
+                        <div class="sin-type">
+                            <div class="sin-category sin-heavy">
+                                <h5>🔴 Grzechy ciężkie</h5>
+                                <ul>
+                                    <li>Opuszczenie Mszy w niedzielę</li>
+                                    <li>Praca zarobkowa w niedzielę</li>
+                                    <li>Zmuszanie innych do pracy</li>
+                                </ul>
+                            </div>
+                            <div class="sin-category sin-light">
+                                <h5>🟡 Grzechy powszednie</h5>
+                                <ul>
+                                    <li>Spóźnienie na Mszę</li>
+                                    <li>Rozproszenie podczas nabożeństwa</li>
+                                    <li>Drobne prace domowe</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="guide-section">
+                    <div class="guide-header" onclick="toggleGuideSection('przykazanie4')">
+                        <span>4️⃣ Czcij ojca swego i matkę swoją</span>
+                        <span>▼</span>
+                    </div>
+                    <div id="przykazanie4" class="guide-content">
+                        <div class="sin-type">
+                            <div class="sin-category sin-heavy">
+                                <h5>🔴 Grzechy ciężkie</h5>
+                                <ul>
+                                    <li>Krzywdzenie rodziców</li>
+                                    <li>Porzucenie w potrzebie</li>
+                                    <li>Poważne przekleństwa</li>
+                                    <li>Całkowite zerwanie kontaktu</li>
+                                </ul>
+                            </div>
+                            <div class="sin-category sin-light">
+                                <h5>🟡 Grzechy powszednie</h5>
+                                <ul>
+                                    <li>Nieposłuszeństwo</li>
+                                    <li>Brak szacunku</li>
+                                    <li>Rzadki kontakt</li>
+                                    <li>Niecierpliwość</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="guide-section">
+                    <div class="guide-header" onclick="toggleGuideSection('przykazanie5')">
+                        <span>5️⃣ Nie zabijaj</span>
+                        <span>▼</span>
+                    </div>
+                    <div id="przykazanie5" class="guide-content">
+                        <div class="sin-type">
+                            <div class="sin-category sin-heavy">
+                                <h5>🔴 Grzechy ciężkie</h5>
+                                <ul>
+                                    <li>Zabójstwo</li>
+                                    <li>Samobójstwo</li>
+                                    <li>Aborcja</li>
+                                    <li>Poważne pobicia</li>
+                                    <li>Jazda pod wpływem</li>
+                                </ul>
+                            </div>
+                            <div class="sin-category sin-light">
+                                <h5>🟡 Grzechy powszednie</h5>
+                                <ul>
+                                    <li>Gniew i złość</li>
+                                    <li>Nienawiść</li>
+                                    <li>Życzenie źle</li>
+                                    <li>Zaniedbanie zdrowia</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="guide-section">
+                    <div class="guide-header" onclick="toggleGuideSection('przykazanie6')">
+                        <span>6️⃣ Nie cudzołóż</span>
+                        <span>▼</span>
+                    </div>
+                    <div id="przykazanie6" class="guide-content">
+                        <div class="sin-type">
+                            <div class="sin-category sin-heavy">
+                                <h5>🔴 Grzechy ciężkie</h5>
+                                <ul>
+                                    <li>Czyny nieczyste</li>
+                                    <li>Pornografia</li>
+                                    <li>Seks przed ślubem</li>
+                                    <li>Cudzołóstwo</li>
+                                </ul>
+                            </div>
+                            <div class="sin-category sin-light">
+                                <h5>🟡 Grzechy powszednie</h5>
+                                <ul>
+                                    <li>Nieczyste myśli (odrzucone)</li>
+                                    <li>Nieprzyzwoite żarty</li>
+                                    <li>Prowokacyjny strój</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="guide-section">
+                    <div class="guide-header" onclick="toggleGuideSection('przykazanie7')">
+                        <span>7️⃣ Nie kradnij</span>
+                        <span>▼</span>
+                    </div>
+                    <div id="przykazanie7" class="guide-content">
+                        <div class="sin-type">
+                            <div class="sin-category sin-heavy">
+                                <h5>🔴 Grzechy ciężkie</h5>
+                                <ul>
+                                    <li>Kradzież większej wartości</li>
+                                    <li>Oszustwa finansowe</li>
+                                    <li>Lichwa</li>
+                                    <li>Niepłacenie podatków</li>
+                                </ul>
+                            </div>
+                            <div class="sin-category sin-light">
+                                <h5>🟡 Grzechy powszednie</h5>
+                                <ul>
+                                    <li>Drobne kradzieże</li>
+                                    <li>Marnotrawstwo</li>
+                                    <li>Niewracanie pożyczek</li>
+                                    <li>Drobne oszustwa</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="guide-section">
+                    <div class="guide-header" onclick="toggleGuideSection('przykazanie8')">
+                        <span>8️⃣ Nie mów fałszywego świadectwa przeciw bliźniemu swemu</span>
+                        <span>▼</span>
+                    </div>
+                    <div id="przykazanie8" class="guide-content">
+                        <div class="sin-type">
+                            <div class="sin-category sin-heavy">
+                                <h5>🔴 Grzechy ciężkie</h5>
+                                <ul>
+                                    <li>Fałszywe świadectwo w sądzie</li>
+                                    <li>Poważne oszczerstwa</li>
+                                    <li>Kłamstwa szkodzące</li>
+                                    <li>Ujawnienie tajemnicy spowiedzi</li>
+                                </ul>
+                            </div>
+                            <div class="sin-category sin-light">
+                                <h5>🟡 Grzechy powszednie</h5>
+                                <ul>
+                                    <li>Drobne kłamstwa</li>
+                                    <li>Plotkowanie</li>
+                                    <li>Ujawnianie sekretów</li>
+                                    <li>Przesadzanie</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="guide-section">
+                    <div class="guide-header" onclick="toggleGuideSection('przykazanie9')">
+                        <span>9️⃣ Nie pożądaj żony bliźniego swego</span>
+                        <span>▼</span>
+                    </div>
+                    <div id="przykazanie9" class="guide-content">
+                        <div class="sin-type">
+                            <div class="sin-category sin-heavy">
+                                <h5>🔴 Grzechy ciężkie</h5>
+                                <ul>
+                                    <li>Świadome pożądanie nieczyste</li>
+                                    <li>Planowanie cudzołóstwa</li>
+                                    <li>Fantazjowanie o osobach</li>
+                                </ul>
+                            </div>
+                            <div class="sin-category sin-light">
+                                <h5>🟡 Grzechy powszednie</h5>
+                                <ul>
+                                    <li>Nieczyste myśli (odrzucone)</li>
+                                    <li>Mimowolne pożądanie</li>
+                                    <li>Nieczyste marzenia</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="guide-section">
+                    <div class="guide-header" onclick="toggleGuideSection('przykazanie10')">
+                        <span>🔟 Ani żadnej rzeczy, która jego jest</span>
+                        <span>▼</span>
+                    </div>
+                    <div id="przykazanie10" class="guide-content">
+                        <div class="sin-type">
+                            <div class="sin-category sin-heavy">
+                                <h5>🔴 Grzechy ciężkie</h5>
+                                <ul>
+                                    <li>Silna zawiść szkodząca</li>
+                                    <li>Planowanie kradzieży z zazdrości</li>
+                                    <li>Radość z cudzego nieszczęścia</li>
+                                </ul>
+                            </div>
+                            <div class="sin-category sin-light">
+                                <h5>🟡 Grzechy powszednie</h5>
+                                <ul>
+                                    <li>Zazdrość o cudze dobra</li>
+                                    <li>Niezadowolenie z losu</li>
+                                    <li>Porównywanie się</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 7 GRZECHÓW GŁÓWNYCH -->
+                <h3 style="margin-top: 30px;">☠️ Siedem Grzechów Głównych</h3>
+                
+                <div class="guide-section">
+                    <div class="guide-header" onclick="toggleGuideSection('pycha')">
+                        <span>👑 Pycha</span>
+                        <span>▼</span>
+                    </div>
+                    <div id="pycha" class="guide-content">
+                        <div class="sin-type">
+                            <div class="sin-category sin-heavy">
+                                <h5>🔴 Formy ciężkie</h5>
+                                <ul>
+                                    <li>Pogarda dla Boga</li>
+                                    <li>Arogancja wobec innych</li>
+                                    <li>Brak pokory</li>
+                                    <li>Przekonanie o nieomylności</li>
+                                </ul>
+                            </div>
+                            <div class="sin-category sin-light">
+                                <h5>🟡 Formy lekkie</h5>
+                                <ul>
+                                    <li>Przechwałki</li>
+                                    <li>Próżność</li>
+                                    <li>Lekceważenie rad</li>
+                                    <li>Nadmierna dbałość o wygląd</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="guide-section">
+                    <div class="guide-header" onclick="toggleGuideSection('chciwosc')">
+                        <span>💰 Chciwość</span>
+                        <span>▼</span>
+                    </div>
+                    <div id="chciwosc" class="guide-content">
+                        <div class="sin-type">
+                            <div class="sin-category sin-heavy">
+                                <h5>🔴 Formy ciężkie</h5>
+                                <ul>
+                                    <li>Skrajne skąpstwo</li>
+                                    <li>Lichwa i wyzysk</li>
+                                    <li>Kradzież z chciwości</li>
+                                    <li>Pieniądze ponad Boga</li>
+                                </ul>
+                            </div>
+                            <div class="sin-category sin-light">
+                                <h5>🟡 Formy lekkie</h5>
+                                <ul>
+                                    <li>Przywiązanie do dóbr</li>
+                                    <li>Niechęć do dzielenia</li>
+                                    <li>Zazdrość o pieniądze</li>
+                                    <li>Niepotrzebne oszczędzanie</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="guide-section">
+                    <div class="guide-header" onclick="toggleGuideSection('nieczystosc')">
+                        <span>💋 Nieczystość</span>
+                        <span>▼</span>
+                    </div>
+                    <div id="nieczystosc" class="guide-content">
+                        <div class="sin-type">
+                            <div class="sin-category sin-heavy">
+                                <h5>🔴 Formy ciężkie</h5>
+                                <ul>
+                                    <li>Wszystkie czyny nieczyste</li>
+                                    <li>Pornografia</li>
+                                    <li>Stosunki przed ślubem</li>
+                                    <li>Cudzołóstwo</li>
+                                    <li>Świadome pożądanie</li>
+                                </ul>
+                            </div>
+                            <div class="sin-category sin-light">
+                                <h5>🟡 Formy lekkie</h5>
+                                <ul>
+                                    <li>Nieczyste myśli (odrzucone)</li>
+                                    <li>Nieczyste żarty</li>
+                                    <li>Niepotrzebne patrzenie</li>
+                                    <li>Prowokacyjny strój</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="guide-section">
+                    <div class="guide-header" onclick="toggleGuideSection('zazdrosc')">
+                        <span>👁️ Zazdrość</span>
+                        <span>▼</span>
+                    </div>
+                    <div id="zazdrosc" class="guide-content">
+                        <div class="sin-type">
+                            <div class="sin-category sin-heavy">
+                                <h5>🔴 Formy ciężkie</h5>
+                                <ul>
+                                    <li>Nienawiść z zazdrości</li>
+                                    <li>Radość z cudzego nieszczęścia</li>
+                                    <li>Szkodzenie z zawiści</li>
+                                    <li>Plotki z zazdrości</li>
+                                </ul>
+                            </div>
+                            <div class="sin-category sin-light">
+                                <h5>🟡 Formy lekkie</h5>
+                                <ul>
+                                    <li>Smutek z cudzego sukcesu</li>
+                                    <li>Porównywanie się</li>
+                                    <li>Niezadowolenie z losu</li>
+                                    <li>Zazdrość o talenty</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="guide-section">
+                    <div class="guide-header" onclick="toggleGuideSection('obzarstwo')">
+                        <span>🍽️ Obżarstwo</span>
+                        <span>▼</span>
+                    </div>
+                    <div id="obzarstwo" class="guide-content">
+                        <div class="sin-type">
+                            <div class="sin-category sin-heavy">
+                                <h5>🔴 Formy ciężkie</h5>
+                                <ul>
+                                    <li>Alkoholizm</li>
+                                    <li>Upijanie do nieprzytomności</li>
+                                    <li>Objadanie do wymiotów</li>
+                                    <li>Zaniedbanie rodziny przez nałogi</li>
+                                </ul>
+                            </div>
+                            <div class="sin-category sin-light">
+                                <h5>🟡 Formy lekkie</h5>
+                                <ul>
+                                    <li>Przejadanie się</li>
+                                    <li>Nadmierne picie</li>
+                                    <li>Łakomstwo</li>
+                                    <li>Brak umiarkowania</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="guide-section">
+                    <div class="guide-header" onclick="toggleGuideSection('gniew')">
+                        <span>😡 Gniew</span>
+                        <span>▼</span>
+                    </div>
+                    <div id="gniew" class="guide-content">
+                        <div class="sin-type">
+                            <div class="sin-category sin-heavy">
+                                <h5>🔴 Formy ciężkie</h5>
+                                <ul>
+                                    <li>Złość prowadząca do przemocy</li>
+                                    <li>Planowanie zemsty</li>
+                                    <li>Nienawiść do osoby</li>
+                                    <li>Niszczenie w gniewie</li>
+                                </ul>
+                            </div>
+                            <div class="sin-category sin-light">
+                                <h5>🟡 Formy lekkie</h5>
+                                <ul>
+                                    <li>Chwilowy gniew</li>
+                                    <li>Irytacja</li>
+                                    <li>Niecierpliwość</li>
+                                    <li>Grubiaństtwo</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="guide-section">
+                    <div class="guide-header" onclick="toggleGuideSection('lenistwo')">
+                        <span>😴 Lenistwo</span>
+                        <span>▼</span>
+                    </div>
+                    <div id="lenistwo" class="guide-content">
+                        <div class="sin-type">
+                            <div class="sin-category sin-heavy">
+                                <h5>🔴 Formy ciężkie</h5>
+                                <ul>
+                                    <li>Zaniedbanie życia duchowego</li>
+                                    <li>Lenistwo szkodzące rodzinie</li>
+                                    <li>Odmowa pracy bez powodu</li>
+                                    <li>Zobojętnienie na zbawienie</li>
+                                </ul>
+                            </div>
+                            <div class="sin-category sin-light">
+                                <h5>🟡 Formy lekkie</h5>
+                                <ul>
+                                    <li>Lenistwo w modlitwie</li>
+                                    <li>Odkładanie obowiązków</li>
+                                    <li>Brak zaangażowania</li>
+                                    <li>Próżnowanie w pracy</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- STATYSTYKI -->
+            <div id="statystyki" class="tab-section">
+                <h3>📊 Statystyki</h3>
+                <div class="stat-grid" id="stats-grid"></div>
+            </div>
+
+            <!-- SPOWIEDŹ -->
+            <div id="spowiedz" class="tab-section">
+                <h3>🙏 Przygotowanie do spowiedzi</h3>
+                <div class="form-group">
+                    <label for="confession-period">Okres:</label>
+                    <select id="confession-period">
+                        <option value="7">Ostatnie 7 dni</option>
+                        <option value="30">Ostatnie 30 dni</option>
+                        <option value="90">Ostatnie 3 miesiące</option>
+                        <option value="all">Wszystkie niewyspowiadane</option>
+                    </select>
+                </div>
+                <button class="btn" onclick="generateConfession()">📋 Wygeneruj listę</button>
+                <button class="btn" onclick="markAsConfessed()">✅ Oznacz jako wyspowiadane</button>
+                <div id="confession-list"></div>
+            </div>
+
+            <!-- BACKUP -->
+            <div id="backup" class="tab-section">
+                <h3>💾 Backup danych</h3>
+                
+                <div class="info-box">
+                    <h4>📋 Informacje</h4>
+                    <p id="data-info">Ładowanie...</p>
+                </div>
+                
+                <div class="warning-box">
+                    <h4>⚠️ Bezpieczeństwo</h4>
+                    <ul>
+                        <li>Pliki zawierają wrażliwe dane</li>
+                        <li>Nie udostępniaj nikomu</li>
+                        <li>Zapisuj w bezpiecznym miejscu</li>
+                    </ul>
+                </div>
+                
+                <div class="backup-actions">
+                    <div class="backup-card">
+                        <h4>📤 Eksport</h4>
+                        <p>Zapisz wszystkie dane do pliku</p>
+                        <button class="btn" onclick="exportData()">💾 Pobierz backup</button>
+                    </div>
+                    
+                    <div class="backup-card">
+                        <h4>📥 Import</h4>
+                        <p>Przywróć dane z pliku backup</p>
+                        <label for="import-file" class="file-input-label">📁 Wybierz plik</label>
+                        <input type="file" id="import-file" class="file-input" accept=".json,.txt" onchange="importData(event)">
+                    </div>
+                    
+                    <div class="backup-card">
+                        <h4>🙏 Lista spowiedzi</h4>
+                        <p>Pobierz listę do spowiedzi</p>
+                        <button class="btn" onclick="exportForConfession()">📄 Pobierz listę</button>
+                    </div>
+                    
+                    <div class="backup-card">
+                        <h4>🗑️ Wyczyść</h4>
+                        <p>Usuń wszystkie dane</p>
+                        <button class="btn btn-danger" onclick="clearConfirmation()">🗑️ Usuń wszystko</button>
+                    </div>
+                </div>
+                
+                <div id="backup-success" class="success-box">
+                    <strong>✅ Sukces!</strong> <span id="success-message"></span>
+                </div>
+                
+                <div id="backup-error" class="error-box">
+                    <strong>❌ Błąd!</strong> <span id="error-message"></span>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        let sins = JSON.parse(localStorage.getItem('sins')) || [];
+
+        // Słownik nazw przykazań
+        const commandmentNames = {
+            "1": "1. Nie będziesz miał bogów cudzych przede Mną",
+            "2": "2. Nie będziesz brał imienia Pana, Boga swego, nadaremnie", 
+            "3": "3. Pamiętaj, abyś dzień święty święcił",
+            "4": "4. Czcij ojca swego i matkę swoją",
+            "5": "5. Nie zabijaj",
+            "6": "6. Nie cudzołóż",
+            "7": "7. Nie kradnij",
+            "8": "8. Nie mów fałszywego świadectwa przeciw bliźniemu swemu",
+            "9": "9. Nie pożądaj żony bliźniego swego",
+            "10": "10. Ani żadnej rzeczy, która jego jest"
+        };
+
+        // Inicjalizacja
+        document.addEventListener('DOMContentLoaded', function() {
+            document.getElementById('sin-date').valueAsDate = new Date();
+            updateDisplay();
+            updateDataInfo();
+        });
+
+        // Przełączanie zakładek
+        function showTab(tabName) {
+            // Ukryj wszystkie sekcje
+            document.querySelectorAll('.tab-section').forEach(section => {
+                section.classList.remove('active');
+            });
+            
+            // Usuń aktywny stan z przycisków
+            document.querySelectorAll('.tab').forEach(tab => {
+                tab.classList.remove('active');
+            });
+            
+            // Pokaż wybraną sekcję
+            document.getElementById(tabName).classList.add('active');
+            
+            // Aktywuj przycisk
+            event.target.classList.add('active');
+            
+            // Aktualizuj dane dla specjalnych zakładek
+            if (tabName === 'statystyki') {
+                updateStatistics();
+            } else if (tabName === 'backup') {
+                updateDataInfo();
+            } else if (tabName === 'lista') {
+                updateSinsList();
+            }
+        }
+
+        // Formularz grzechów
+        document.getElementById('sin-form').addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            const sin = {
+                id: Date.now(),
+                description: document.getElementById('sin-description').value,
+                date: document.getElementById('sin-date').value,
+                severity: document.getElementById('sin-severity').value,
+                commandment: document.getElementById('sin-commandment').value,
+                cardinal: document.getElementById('sin-cardinal').value,
+                context: document.getElementById('sin-context').value,
+                confessed: false,
+                createdAt: new Date().toISOString()
+            };
+            
+            sins.push(sin);
+            localStorage.setItem('sins', JSON.stringify(sins));
+            
+            document.getElementById('sin-form').reset();
+            document.getElementById('sin-date').valueAsDate = new Date();
+            
+            updateDisplay();
+            alert('Grzech zapisany!');
+        });
+
+        // Weryfikacja grzechu
+        function verifyAction() {
+            const consciousness = document.querySelector('input[name="consciousness"]:checked')?.value;
+            const freedom = document.querySelector('input[name="freedom"]:checked')?.value;
+            const knowledge = document.querySelector('input[name="knowledge"]:checked')?.value;
+            const consent = document.querySelector('input[name="consent"]:checked')?.value;
+            
+            const resultContainer = document.getElementById('verification-result');
+            
+            if (!consciousness || !freedom || !knowledge || !consent) {
+                resultContainer.innerHTML = '<div class="result result-uncertain">Odpowiedz na wszystkie pytania</div>';
+                return;
+            }
+            
+            if (consciousness === 'no' || freedom === 'no' || knowledge === 'no' || consent === 'no') {
+                resultContainer.innerHTML = `
+                    <div class="result result-no-sin">
+                        ✅ TO NIE BYŁ GRZECH<br>
+                        Brak jednego z wymaganych elementów.
+                    </div>`;
+            } else if (consciousness === 'partial' || freedom === 'limited' || knowledge === 'uncertain' || consent === 'partial') {
+                resultContainer.innerHTML = `
+                    <div class="result result-uncertain">
+                        ⚠️ MOŻLIWY GRZECH POWSZEDNI<br>
+                        Ograniczona świadomość lub zgoda.
+                    </div>`;
+            } else {
+                resultContainer.innerHTML = `
+                    <div class="result result-sin">
+                        ❌ TO BYŁ GRZECH<br>
+                        Przejdź do zakładki "Dodaj".
+                    </div>`;
+            }
+        }
+
+        // Aktualizacja listy grzechów
+        function updateSinsList() {
+            const container = document.getElementById('sins-list');
+            const periodFilter = document.getElementById('filter-period').value;
+            const confessedFilter = document.getElementById('filter-confessed').value;
+            
+            let filteredSins = [...sins];
+            
+            // Filtruj po okresie
+            if (periodFilter !== 'all') {
+                const days = parseInt(periodFilter);
+                const cutoffDate = new Date();
+                cutoffDate.setDate(cutoffDate.getDate() - days);
+                
+                filteredSins = filteredSins.filter(sin => {
+                    const sinDate = new Date(sin.date);
+                    return sinDate >= cutoffDate;
+                });
+            }
+            
+            // Filtruj po statusie spowiedzi
+            if (confessedFilter === 'confessed') {
+                filteredSins = filteredSins.filter(sin => sin.confessed);
+            } else if (confessedFilter === 'unconfessed') {
+                filteredSins = filteredSins.filter(sin => !sin.confessed);
+            }
+            
+            // Sortuj po dacie (najnowsze pierwsze)
+            filteredSins.sort((a, b) => new Date(b.date) - new Date(a.date));
+            
+            if (filteredSins.length === 0) {
+                container.innerHTML = '<p>Brak grzechów do wyświetlenia.</p>';
+                return;
+            }
+            
+            let html = '';
+            filteredSins.forEach(sin => {
+                const sinClass = sin.severity === 'ciężki' ? 'serious' : 'venial';
+                const confessedClass = sin.confessed ? 'confessed' : '';
+                const severityClass = sin.severity === 'ciężki' ? 'severity-serious' : 'severity-venial';
+                const commandmentName = commandmentNames[sin.commandment] || `${sin.commandment}. Przykazanie`;
+                
+                html += `
+                    <div class="sin-item ${sinClass} ${confessedClass}">
+                        <div class="sin-header">
+                            <span class="sin-severity ${severityClass}">
+                                ${sin.severity === 'ciężki' ? '🔴 Ciężki' : '🟡 Powszedni'}
+                            </span>
+                            <span>${formatDate(sin.date)}</span>
+                        </div>
+                        <div class="sin-description">${sin.description}</div>
+                        <div class="sin-details">
+                            <strong>Przykazanie:</strong> ${commandmentName}<br>
+                            ${sin.cardinal ? `<strong>Grzech główny:</strong> ${sin.cardinal}<br>` : ''}
+                            ${sin.context ? `<strong>Okoliczności:</strong> ${sin.context}<br>` : ''}
+                            <strong>Status:</strong> ${sin.confessed ? '✅ Wyspowiadany' : '❌ Niewyspowiadany'}
+                        </div>
+                        <div class="sin-actions">
+                            ${!sin.confessed ? 
+                                `<button class="btn btn-small" onclick="toggleConfessed(${sin.id})">✅ Oznacz jako wyspowiadany</button>` :
+                                `<button class="btn btn-small" onclick="toggleConfessed(${sin.id})">↩️ Cofnij spowiedź</button>`
+                            }
+                            <button class="btn btn-small btn-danger" onclick="deleteSin(${sin.id})">🗑️ Usuń</button>
+                        </div>
+                    </div>
+                `;
+            });
+            
+            container.innerHTML = html;
+        }
+
+        // Formatowanie daty
+        function formatDate(dateString) {
+            const date = new Date(dateString);
+            return date.toLocaleDateString('pl-PL');
+        }
+
+        // Oznaczanie jako wyspowiadany
+        function toggleConfessed(sinId) {
+            const sinIndex = sins.findIndex(sin => sin.id === sinId);
+            if (sinIndex !== -1) {
+                sins[sinIndex].confessed = !sins[sinIndex].confessed;
+                localStorage.setItem('sins', JSON.stringify(sins));
+                updateDisplay();
+            }
+        }
+
+        // Usuwanie grzechu
+        function deleteSin(sinId) {
+            if (confirm('Czy na pewno chcesz usunąć ten grzech?')) {
+                sins = sins.filter(sin => sin.id !== sinId);
+                localStorage.setItem('sins', JSON.stringify(sins));
+                updateDisplay();
+            }
+        }
+
+        // Przewodnik - rozwijanie sekcji
+        function toggleGuideSection(sectionId) {
+            const content = document.getElementById(sectionId);
+            const header = content.previousElementSibling;
+            const arrow = header.querySelector('span:last-child');
+            
+            if (content.classList.contains('active')) {
+                content.classList.remove('active');
+                arrow.textContent = '▼';
+            } else {
+                // Zamknij wszystkie inne sekcje
+                document.querySelectorAll('.guide-content').forEach(section => {
+                    section.classList.remove('active');
+                });
+                document.querySelectorAll('.guide-header span:last-child').forEach(arrow => {
+                    arrow.textContent = '▼';
+                });
+                
+                // Otwórz wybraną sekcję
+                content.classList.add('active');
+                arrow.textContent = '▲';
+            }
+        }
+
+        // Statystyki
+        function updateStatistics() {
+            const container = document.getElementById('stats-grid');
+            const totalSins = sins.length;
+            const seriousSins = sins.filter(sin => sin.severity === 'ciężki').length;
+            const venialSins = sins.filter(sin => sin.severity === 'powszedni').length;
+            const unconfessed = sins.filter(sin => !sin.confessed).length;
+            const confessed = sins.filter(sin => sin.confessed).length;
+            
+            // Statystyki według przykazań
+            const commandmentStats = {};
+            sins.forEach(sin => {
+                commandmentStats[sin.commandment] = (commandmentStats[sin.commandment] || 0) + 1;
+            });
+            const mostBrokenCommandment = Object.keys(commandmentStats).reduce((a, b) => 
+                commandmentStats[a] > commandmentStats[b] ? a : b, '1');
+            
+            container.innerHTML = `
+                <div class="stat-card">
+                    <div class="stat-number">${totalSins}</div>
+                    <div class="stat-label">Łącznie grzechów</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-number">${seriousSins}</div>
+                    <div class="stat-label">Grzechy ciężkie</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-number">${venialSins}</div>
+                    <div class="stat-label">Grzechy powszednie</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-number">${unconfessed}</div>
+                    <div class="stat-label">Niewyspowiadane</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-number">${confessed}</div>
+                    <div class="stat-label">Wyspowiadane</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-number">${mostBrokenCommandment}.</div>
+                    <div class="stat-label">Najczęściej łamane przykazanie</div>
+                </div>
+            `;
+        }
+
+        // Generowanie listy do spowiedzi
+        function generateConfession() {
+            const period = document.getElementById('confession-period').value;
+            const container = document.getElementById('confession-list');
+            
+            let filteredSins = sins.filter(sin => !sin.confessed);
+            
+            if (period !== 'all') {
+                const days = parseInt(period);
+                const cutoffDate = new Date();
+                cutoffDate.setDate(cutoffDate.getDate() - days);
+                
+                filteredSins = filteredSins.filter(sin => {
+                    const sinDate = new Date(sin.date);
+                    return sinDate >= cutoffDate;
+                });
+            }
+            
+            if (filteredSins.length === 0) {
+                container.innerHTML = '<div class="confession-list"><p>Brak grzechów do wyspowiadania w wybranym okresie! 🎉</p></div>';
+                return;
+            }
+            
+            // Sortuj po ciężkości i dacie
+            filteredSins.sort((a, b) => {
+                if (a.severity === 'ciężki' && b.severity === 'powszedni') return -1;
+                if (a.severity === 'powszedni' && b.severity === 'ciężki') return 1;
+                return new Date(b.date) - new Date(a.date);
+            });
+            
+            let html = '<div class="confession-list">';
+            html += '<h4>📋 Lista do spowiedzi</h4>';
+            html += '<p><em>Grzechy ciężkie są pokazane jako pierwsze:</em></p>';
+            
+            filteredSins.forEach((sin, index) => {
+                const severityIcon = sin.severity === 'ciężki' ? '🔴' : '🟡';
+                const commandmentName = commandmentNames[sin.commandment] || `${sin.commandment}. Przykazanie`;
+                
+                html += `
+                    <div class="confession-item">
+                        <strong>${index + 1}. ${severityIcon} ${sin.description}</strong><br>
+                        <small>
+                            ${commandmentName} • ${formatDate(sin.date)}
+                            ${sin.cardinal ? ` • ${sin.cardinal}` : ''}
+                            ${sin.context ? `<br>Okoliczności: ${sin.context}` : ''}
+                        </small>
+                    </div>
+                `;
+            });
+            
+            html += '</div>';
+            container.innerHTML = html;
+        }
+
+        // Oznaczanie jako wyspowiadane (z listy do spowiedzi)
+        function markAsConfessed() {
+            const period = document.getElementById('confession-period').value;
+            let filteredSins = sins.filter(sin => !sin.confessed);
+            
+            if (period !== 'all') {
+                const days = parseInt(period);
+                const cutoffDate = new Date();
+                cutoffDate.setDate(cutoffDate.getDate() - days);
+                
+                filteredSins = filteredSins.filter(sin => {
+                    const sinDate = new Date(sin.date);
+                    return sinDate >= cutoffDate;
+                });
+            }
+            
+            if (filteredSins.length === 0) {
+                alert('Brak grzechów do oznaczenia jako wyspowiadane!');
+                return;
+            }
+            
+            if (confirm(`Czy na pewno chcesz oznaczyć ${filteredSins.length} grzechów jako wyspowiadane?`)) {
+                filteredSins.forEach(sin => {
+                    const sinIndex = sins.findIndex(s => s.id === sin.id);
+                    if (sinIndex !== -1) {
+                        sins[sinIndex].confessed = true;
+                    }
+                });
+                
+                localStorage.setItem('sins', JSON.stringify(sins));
+                updateDisplay();
+                generateConfession(); // Odśwież listę
+                alert('Grzechy oznaczone jako wyspowiadane! 🙏');
+            }
+        }
+
+        // Backup functions
+        function updateDataInfo() {
+            const totalSins = sins.length;
+            const unconfessed = sins.filter(sin => !sin.confessed).length;
+            
+            document.getElementById('data-info').innerHTML = `
+                <strong>Łącznie grzechów:</strong> ${totalSins}<br>
+                <strong>Niewyspowiadanych:</strong> ${unconfessed}
+            `;
+        }
+
+        function exportData() {
+            try {
+                const data = {
+                    sins: sins,
+                    exportDate: new Date().toISOString(),
+                    version: '1.0'
+                };
+                
+                const jsonData = JSON.stringify(data, null, 2);
+                const blob = new Blob([jsonData], { type: 'application/json' });
+                const url = URL.createObjectURL(blob);
+                const a = document.createElement('a');
+                a.href = url;
+                a.download = `backup-${new Date().toISOString().split('T')[0]}.json`;
+                document.body.appendChild(a);
+                a.click();
+                document.body.removeChild(a);
+                URL.revokeObjectURL(url);
+                
+                showSuccess('Backup pobrany!');
+            } catch (error) {
+                showError('Błąd eksportu: ' + error.message);
+            }
+        }
+
+        function importData(event) {
+            const file = event.target.files[0];
+            if (!file) return;
+            
+            const reader = new FileReader();
+            reader.onload = function(e) {
+                try {
+                    const data = JSON.parse(e.target.result);
+                    
+                    if (!data.sins || !Array.isArray(data.sins)) {
+                        throw new Error('Nieprawidłowy format pliku');
+                    }
+                    
+                    if (confirm(`Przywrócić ${data.sins.length} grzechów?\nObecne dane zostaną zastąpione!`)) {
+                        sins = data.sins;
+                        localStorage.setItem('sins', JSON.stringify(sins));
+                        updateDisplay();
+                        updateDataInfo();
+                        showSuccess(`Przywrócono ${data.sins.length} grzechów!`);
+                    }
+                } catch (error) {
+                    showError('Błąd importu: ' + error.message);
+                }
+            };
+            reader.readAsText(file);
+        }
+
+        function exportForConfession() {
+            const unconfessedSins = sins.filter(sin => !sin.confessed);
+            
+            if (unconfessedSins.length === 0) {
+                alert('Brak grzechów do wyspowiadania!');
+                return;
+            }
+            
+            let text = 'LISTA DO SPOWIEDZI\n';
+            text += '==================\n\n';
+            text += `Data wygenerowania: ${new Date().toLocaleDateString('pl-PL')}\n`;
+            text += `Łącznie grzechów: ${unconfessedSins.length}\n\n`;
+            
+            // Sortuj po ciężkości
+            const sortedSins = unconfessedSins.sort((a, b) => {
+                if (a.severity === 'ciężki' && b.severity === 'powszedni') return -1;
+                if (a.severity === 'powszedni' && b.severity === 'ciężki') return 1;
+                return new Date(b.date) - new Date(a.date);
+            });
+            
+            sortedSins.forEach((sin, index) => {
+                const severityText = sin.severity === 'ciężki' ? 'CIĘŻKI' : 'powszedni';
+                const commandmentName = commandmentNames[sin.commandment] || `${sin.commandment}. Przykazanie`;
+                
+                text += `${index + 1}. [${severityText}] ${sin.description}\n`;
+                text += `   ${commandmentName} - ${formatDate(sin.date)}\n`;
+                if (sin.cardinal) text += `   Grzech główny: ${sin.cardinal}\n`;
+                if (sin.context) text += `   Okoliczności: ${sin.context}\n`;
+                text += '\n';
+            });
+            
+            const blob = new Blob([text], { type: 'text/plain;charset=utf-8' });
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = `lista-do-spowiedzi-${new Date().toISOString().split('T')[0]}.txt`;
+            document.body.appendChild(a);
+            a.click();
+            document.body.removeChild(a);
+            URL.revokeObjectURL(url);
+            
+            showSuccess('Lista do spowiedzi pobrana!');
+        }
+
+        function clearConfirmation() {
+            const confirmation = prompt('Wpisz "USUŃ WSZYSTKO" żeby potwierdzić:');
+            if (confirmation === 'USUŃ WSZYSTKO') {
+                sins = [];
+                localStorage.removeItem('sins');
+                updateDisplay();
+                updateDataInfo();
+                showSuccess('Wszystkie dane usunięte!');
+            }
+        }
+
+        function showSuccess(message) {
+            document.getElementById('success-message').textContent = message;
+            document.getElementById('backup-success').style.display = 'block';
+            setTimeout(() => {
+                document.getElementById('backup-success').style.display = 'none';
+            }, 3000);
+        }
+
+        function showError(message) {
+            document.getElementById('error-message').textContent = message;
+            document.getElementById('backup-error').style.display = 'block';
+            setTimeout(() => {
+                document.getElementById('backup-error').style.display = 'none';
+            }, 3000);
+        }
+
+        function updateDisplay() {
+            updateStatistics();
+            updateSinsList();
+            updateDataInfo();
+        }
+    </script>
+</body>
+</html>
